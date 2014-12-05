@@ -5,6 +5,8 @@ import json
 
 from .forms import ServiceAreaForm, SelectServiceAreaForm
 from .models import ServiceArea
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 class SetServiceArea(View):
     """
@@ -16,6 +18,7 @@ class SetServiceArea(View):
     def get(self, request):
         return render(request, self.template_name, {'form':ServiceAreaForm()})
 
+    @method_decorator(csrf_exempt)
     def post(self, request):
         json_data = json.loads(request.body)
         form = ServiceAreaForm(json_data)

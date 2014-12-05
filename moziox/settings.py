@@ -72,10 +72,10 @@ WSGI_APPLICATION = 'moziox.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.contrib.gis.db.backends.mysql',
         'NAME': 'mozio',
         'USER': 'mozio',                      # Not used with sqlite3.
-        'PASSWORD': 'Mozio77',                  # Not used with sqlite3.
+        'PASSWORD': 'mozio',                  # Not used with sqlite3.
         # Set to empty string for localhost. Not used with sqlite3.
         'HOST': '',
         # Set to empty string for default. Not used with sqlite3.

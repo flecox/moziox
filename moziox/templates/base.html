@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8" />
+	<title>Moziox!</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css" />
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	<script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
+	<script src="{% static "js/csrftokenajax.js" %}"></script>
+	<script src="{% static "js/map.js" %}"></script>
+	{% block script %}
+	{% endblock %}
+</head>
+
+<body id="index" class="home">
+	<div id="header">
+		<div class="title">
+		<h1>Moziox</h1>
+		</div>
+		{% block head %}
+		{% endblock %}
+	</div>
+	<div id="container">
+		<div id="map-canvas"></div>
+	</div>
+</div>
+</body>
+</html>

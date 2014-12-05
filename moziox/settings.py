@@ -110,5 +110,8 @@ STATICFILES_DIRS = (
     os.path.join(os.path.dirname(__file__), 'static'),
 )
 
-from moziox.local_settings import *
+try:
+    from moziox.local_settings import *
+except:
+    pass
 

@@ -8,22 +8,38 @@ from .models import ServiceArea
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-class SetServiceArea(View):
-    """
-    Main view, show the map and receive a new service area and save it.
-    """
+# class SetServiceArea(View):
+#     """
+#     Main view, show the map and receive a new service area and save it.
+#     """
 
+#     template_name = "index.html"
+
+#     @method_decorator(csrf_exempt)
+#     def dispatch(self, *args, **kwargs):
+#         return super(SetServiceArea, self).dispatch(*args, **kwargs)
+
+#     def get(self, request):
+#         return render(request, self.template_name, {'form':ServiceAreaForm()})
+
+#     @method_decorator(csrf_exempt)
+#     def post(self, request):
+#         json_data = json.loads(request.body)
+#         form = ServiceAreaForm(json_data)
+#         if form.is_valid():
+#             form.save()
+#             data = {'saved': "Service area Saved! please click on Next! to continue"}
+#         else:
+#             data = {'errors': form.errors.values()}
+#         return HttpResponse(json.dumps(data), content_type="application/json")
+
+# service_area_set = SetServiceArea.as_view()
+@csrf_exempt
+def service_area_set(request):
     template_name = "index.html"
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, *args, **kwargs):
-        return super(SetServiceArea, self).dispatch(*args, **kwargs)
-
-    def get(self, request):
-        return render(request, self.template_name, {'form':ServiceAreaForm()})
-
-    @method_decorator(csrf_exempt)
-    def post(self, request):
+    if request.method == 'GET':
+        return render(request, template_name, {'form':ServiceAreaForm()})
+    else:
         json_data = json.loads(request.body)
         form = ServiceAreaForm(json_data)
         if form.is_valid():
@@ -33,7 +49,7 @@ class SetServiceArea(View):
             data = {'errors': form.errors.values()}
         return HttpResponse(json.dumps(data), content_type="application/json")
 
-service_area_set = SetServiceArea.as_view()
+
 
 
 class FindServiceArea(View):

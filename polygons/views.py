@@ -15,6 +15,10 @@ class SetServiceArea(View):
 
     template_name = "index.html"
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(SetServiceArea, self).dispatch(*args, **kwargs)
+
     def get(self, request):
         return render(request, self.template_name, {'form':ServiceAreaForm()})
 

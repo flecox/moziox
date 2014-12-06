@@ -14,5 +14,8 @@ class ServiceArea(models.Model):
 
     objects = models.GeoManager()
 
+    class Meta:
+        ordering = ["-created"]
+
     def __unicode__(self):
         return self.name

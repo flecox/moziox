@@ -9,9 +9,9 @@ function getLastServicearea(map) {
     type: 'GET',
     data: form.serialize(),
     success:function(data) {
-      map.clearPolygons()
+      map.clearPolygons();
       var coords = data['mpoly'];
-      map.loadPolygons(coords)
+      map.loadPolygons(coords);
       // for(var k=0; k<map.polygons.length; k++) {
       //   map.polygons[k].setMap(map.map)
       // }
@@ -29,4 +29,32 @@ $( document ).ready(function() {
     getLastServicearea(map);
   });
   getLastServicearea(map);
+
+  $("body").on("hit", function() {
+    $(".result").css("font-size", "5px");
+    $(".result").css("color", "red");
+    $(".result").text("HIT!");
+
+    $(".result").animate({
+      opacity: 1,
+      fontSize: "2.4em",
+      borderWidth: "10px"
+    }, 300, function() {
+      // Animation complete.
+    });
+  });
+
+  $("body").on("miss", function() {
+    $(".result").css("font-size", "5px");
+    $(".result").css("color", "green");
+    $(".result").text("MISSED!");
+
+    $(".result").animate({
+      opacity: 1,
+      fontSize: "2.4em",
+      borderWidth: "10px"
+    }, 300, function() {
+      // Animation complete.
+    });
+  });
 });

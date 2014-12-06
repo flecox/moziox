@@ -6,6 +6,7 @@
 
 function Map() {
   this.polygons = new Array();
+  this.polylines = new Array();
   this.markers = new Array();
   this.map = null;
 }
@@ -53,35 +54,40 @@ Map.prototype.setMarketWindowsInfo = function(marker, latLng) {
 Map.prototype.initPolygonDrawer = function() {
   var isClosed = false;
   var that = this;
-  poly = new google.maps.Polyline({ map: this.map, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
+  polyline = new google.maps.Polyline({ map: this.map, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
   google.maps.event.addListener(this.map, 'click', function (clickEvent) {
     if (isClosed) {
-      poly = new google.maps.Polyline({ map: that.map, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
+      polyline = new google.maps.Polyline({ map: that.map, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
       isClosed = false
     }
-    var markerIndex = poly.getPath().length;
+    var markerIndex = polyline.getPath().length;
     var isFirstMarker = markerIndex === 0;
 
     var marker = new google.maps.Marker({ map: that.map, position: clickEvent.latLng, draggable: true});
     map.setMarketWindowsInfo(marker, clickEvent.latLng);
+    marker.polyline = polyline;
     that.markers.push(marker);
     if (isFirstMarker) {
       google.maps.event.addListener(marker, 'click', function () {
         if (isClosed)
           return;
-        var path = poly.getPath();
-        poly.setMap(null);
+        var path = polyline.getPath();
+        polyline.setMap(null);
         poly = new google.maps.Polygon({ map: that.map, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35 });
+        marker.poly = poly;
         that.polygons.push(poly);
         isClosed = true;
       });
     }
     google.maps.event.addListener(marker, 'drag', function (dragEvent) {
-      poly.getPath().setAt(markerIndex, dragEvent.latLng);
+      marker.polyline.getPath().setAt(markerIndex, dragEvent.latLng);
       map.setMarketWindowsInfo(marker, dragEvent.latLng);
 
     });
-    poly.getPath().push(clickEvent.latLng);
+    google.maps.event.addListener(marker, "dblclick", function (e) {
+
+    });
+    polyline.getPath().push(clickEvent.latLng);
   });
 
 }
@@ -111,7 +117,13 @@ Map.prototype.setFinder = function() {
       position: e.latLng,
       map: that.map,
       icon: circle
-    })
+    });
+
+    if (color === "red") {
+      $("body").trigger("hit");
+    } else {
+      $("body").trigger("miss");
+    }
 
   });
 }

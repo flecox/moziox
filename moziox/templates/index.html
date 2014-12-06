@@ -9,7 +9,7 @@
 	<form methos="post" action=".">
 		{{form.name}}
 		<button type="submit" class="btn btn-primary btn-large">Save!</button>
-		<button class="btn btn-danger btn-large" id="clear">Clear</button>
+		<button class="btn btn-default btn-large" id="clear">Clear</button>
 	</form>
 	<div class="errors">
 	</div>
@@ -17,5 +17,5 @@
 	</div>
 	<a class="btn btn-default btn-large next" href="{% url "find" %}">Next</a>
 	<div style="clear:both"></div>
-	<div class="help">Please mark the Service Area creating a polygon clickin on the map. To close the polygon click again on the first point</div>
+	<div class="help">Mark the Service Area creating a polygon clickin on the map. To close the polygon click again on the first point</div>
 {% endblock %}

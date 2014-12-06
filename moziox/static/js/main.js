@@ -7,6 +7,7 @@ $( document ).ready(function() {
   $("form").submit(function(e) {
     e.preventDefault();
     $(".errors").html("");
+    $(".success").text("");
     var data = {'mpoly':map.getCoords(), 'name': $("#id_name").val()};
     jQuery.ajax({
       url : $(this).attr("action"),

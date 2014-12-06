@@ -10,10 +10,18 @@ class SelectServiceAreaForm(forms.Form):
     service_area = forms.ModelChoiceField(queryset=ServiceArea.objects.all())
 
 
-class ServiceAreaForm(forms.ModelForm):
+class ServiceAreaForm(forms.Form):
     """
         Form to save/edit a Service area.
     """
+
+    name = forms.CharField(required=False)
+
+    def clean_name(self):
+        data = self.cleaned_data['name']
+        if not data:
+            raise forms.ValidationError("The Name can't be empty!")
+        return data
 
     def clean(self):
         cleaned_data = super(ServiceAreaForm, self).clean()
@@ -25,7 +33,7 @@ class ServiceAreaForm(forms.ModelForm):
         try:
             obj = ServiceArea.objects.get(name=self.data['name'])
         except:
-            obj = super(ServiceAreaForm, self).save(commit=False)
+            obj = ServiceArea(name=self.data['name'])
         polys = []
         for poly_data in self.data['mpoly']:
             #first node is last node
@@ -35,7 +43,3 @@ class ServiceAreaForm(forms.ModelForm):
         mpolys = MultiPolygon(polys)
         obj.mpoly = mpolys
         obj.save()
-
-    class Meta:
-        model = ServiceArea
-        fields = ['name']
